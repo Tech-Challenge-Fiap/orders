@@ -1,0 +1,50 @@
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: postgres
+spec:
+  selector:
+    matchLabels:
+      app: postgres
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: postgres
+    spec:
+      containers:
+      - name: postgres
+        image: postgres:13
+        imagePullPolicy: "IfNotPresent"
+        resources:
+          limits:
+            memory: "512Mi"
+            cpu: "1000m"
+        ports:
+        - containerPort: 5432
+        env:
+        - name: POSTGRES_DB
+          value: orderdb
+        - name: POSTGRES_USER
+          value: orderuser
+        - name: POSTGRES_PASSWORD
+          value: orderpass
+        volumeMounts:
+        - mountPath: /var/lib/postgresql/data
+          name: postgresdb
+      volumes:
+      - name: postgresdb
+        persistentVolumeClaim:
+          claimName: postgres-pvc
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: postgres
+spec:
+  selector:
+    app: postgres
+  ports:
+  - port: 5432
+  type: ClusterIP

@@ -4,7 +4,7 @@ services:
     image: postgres:13  # Use uma imagem oficial do PostgreSQL
     environment:
       POSTGRES_DB: orderdb  # Nome do banco de dados
-      POSTGRES_USER: order  # Nome de usuário do banco de dados
+      POSTGRES_USER: orderuser  # Nome de usuário do banco de dados
       POSTGRES_PASSWORD: orderpass  # Senha do banco de dados
     ports:
       - "5432:5432"  # Mapeie a porta do PostgreSQL do contêiner para a porta do host
@@ -23,7 +23,7 @@ services:
       - .:/app  # Mapeamento do diretório local para o diretório de trabalho no contêiner
     environment:
       POSTGRES_DB: orderdb  # Nome do banco de dados
-      POSTGRES_USER: order  # Nome de usuário do banco de dados
+      POSTGRES_USER: orderuser  # Nome de usuário do banco de dados
       POSTGRES_PASSWORD: orderpass  # Senha do banco de dados
       POSTGRES_SERVICE_HOST: dborder  # Senha do banco de dados
       FLASK_ENV: development  # Configuração da variável de ambiente FLASK_ENV
