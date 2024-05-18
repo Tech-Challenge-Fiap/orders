@@ -2,19 +2,19 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: postgres
+  name: orders-postgres
 spec:
   selector:
     matchLabels:
-      app: postgres
+      app: orders-postgres
   replicas: 1
   template:
     metadata:
       labels:
-        app: postgres
+        app: orders-postgres
     spec:
       containers:
-      - name: postgres
+      - name: orders-postgres
         image: postgres:13
         imagePullPolicy: "IfNotPresent"
         resources:
@@ -24,27 +24,36 @@ spec:
         ports:
         - containerPort: 5432
         env:
-        - name: POSTGRES_DB
-          value: orderdb
-        - name: POSTGRES_USER
-          value: orderuser
-        - name: POSTGRES_PASSWORD
-          value: orderpass
+          - name: POSTGRES_DB
+            valueFrom:
+              secretKeyRef:
+                name: orders-database-secret-config
+                key: dbname
+          - name: POSTGRES_USER
+            valueFrom:
+              secretKeyRef:
+                name: orders-database-secret-config
+                key: username
+          - name: POSTGRES_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                name: orders-database-secret-config
+                key: password
         volumeMounts:
         - mountPath: /var/lib/postgresql/data
-          name: postgresdb
+          name: orders-postgresdb
       volumes:
-      - name: postgresdb
+      - name: orders-postgresdb
         persistentVolumeClaim:
-          claimName: postgres-pvc
+          claimName: orders-postgres-pvc
 ---
 kind: Service
 apiVersion: v1
 metadata:
-  name: postgres
+  name: orders-postgres-svc
 spec:
   selector:
-    app: postgres
+    app: orders-postgres
   ports:
   - port: 5432
   type: ClusterIP
