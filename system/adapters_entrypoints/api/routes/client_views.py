@@ -17,7 +17,7 @@ def create_client():
     try:
         client = client_usecase.CreateClientUseCase.execute(request=create_client_request)
     except ClientAlreadyExistsError:
-        return {"error": "This Client already exists"}, 409
+        return {"error": "This Client already exists"}, 400
     except InfrastructureError:
         return {"error": "Internal Error"}, 500
     return client.response

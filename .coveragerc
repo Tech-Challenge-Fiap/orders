@@ -1,0 +1,27 @@
+[run]
+omit =
+    /usr/lib/python3/dist-packages/cryptography/*
+    /usr/lib/python3/dist-packages/jwt/*
+    /usr/lib/python3/dist-packages/six.py
+    system/application/usecase/order_usecase.py
+    system/adapters_entrypoints/api/routes/order_views.py
+    system/adapters_entrypoints/api/routes/general_view.py
+    tests/order/usecase/test_create_order_usecase.py
+    tests/order/usecase/test_update_order_status_usecase.py
+    tests/order/usecase/test_get_order_by_id_usecase.py
+    tests/*
+
+[report]
+show_missing = True
+skip_covered = True
+
+[html]
+directory = htmlcov
+
+[exclude_lines]
+pragma: no cover
+    def __repr__
+    if self\.debug:
+    raise AssertionError
+    raise NotImplementedError
+if __name__ == .__main__.:
