@@ -8,7 +8,7 @@ class PaymentService(PaymentServicePort):
         """
         Create Payment and returns payment_id
         """
-        url = "http://svcpayment:5000/create_payment"
+        url = "http://payment-svc:5000/create_payment"
         payload = {
             "value": str(value)
         }
