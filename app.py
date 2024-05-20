@@ -2,7 +2,6 @@ import os
 from flask import Flask
 from flask_migrate import Migrate
 
-
 app = Flask(__name__)
 
 db_name = os.environ.get("POSTGRES_DB", "myappdb")
@@ -18,9 +17,12 @@ app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 
 # Configuração de teste
 # Configure para usar uma base de dados de teste, e.g., SQLite in-memory
-app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///:memory:"
-app.config["TESTING"] = True
-app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
+is_testing =  os.environ.get("TESTING", "1")
+is_testing = bool(int(is_testing))
+if is_testing:
+    app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///:memory:"
+    app.config["TESTING"] = is_testing
+    app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 
 from system.infrastructure.adapters.database.models import *
 
