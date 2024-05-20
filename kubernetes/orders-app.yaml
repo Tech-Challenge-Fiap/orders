@@ -20,7 +20,7 @@ spec:
           do echo waiting for database; sleep 2; done;']
       containers:
       - name: orders-app
-        image: barbosaleandro/orders:latest
+        image: DOCKER_IMAGE
         resources:
           limits:
             memory: "128Mi"
