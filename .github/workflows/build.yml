@@ -37,7 +37,8 @@ jobs:
         pylint $(git ls-files '*.py') --fail-under 2
     - name: Test Backend
       run: |
-        coverage run --source=./system -m unittest discover -s tests -p 'test_*'
+        export TESTING=1
+        coverage run --source=./system -m pytest
     - name: Export Coverage
       run: |
         export CODACY_API_TOKEN=${{secrets.CODACY_API_TOKEN}}

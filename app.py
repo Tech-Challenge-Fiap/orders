@@ -13,7 +13,20 @@ app.config[
 ] = f"postgresql://{db_user}:{db_pass}@{db_host}/{db_name}"
 # app.config['SQLALCHEMY_DATABASE_URI'] = f'postgresql://myappuser:myapppassword@db/myappdb'
 
+<<<<<<< Updated upstream
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+=======
+app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
+
+# Configuração de teste
+# Configure para usar uma base de dados de teste, e.g., SQLite in-memory
+is_testing =  os.environ.get("TESTING", "1")
+is_testing = bool(int(is_testing))
+if is_testing:
+    app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///:memory:"
+    app.config["TESTING"] = is_testing
+    app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
+>>>>>>> Stashed changes
 
 from system.infrastructure.adapters.database.models import *
 

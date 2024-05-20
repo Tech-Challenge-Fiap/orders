@@ -63,3 +63,5 @@ spec:
                 key: password
           - name: POSTGRES_SERVICE_HOST
             value: orders-postgres-svc
+          - name: TESTING
+            value: "0"
