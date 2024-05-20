@@ -20,6 +20,8 @@ jobs:
       uses: actions/setup-python@v3
       with:
         python-version: 3.8
+    - name: Build the Docker image
+      run: docker build . --file Dockerfile --tag my-image-name:$(date +%s)
   test:
     runs-on: ubuntu-latest
     steps:
@@ -31,8 +33,6 @@ jobs:
     - name: Analysing the code with pylint
       run: |
         pylint $(git ls-files '*.py') --fail-under 2
-    - name: Build the Docker image
-      run: docker build . --file Dockerfile --tag my-image-name:$(date +%s)
     - name: Test Backend
       run: |
         coverage run --source=./system -m unittest discover -s tests -p 'test_*'
