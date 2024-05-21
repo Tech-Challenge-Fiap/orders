@@ -2,7 +2,6 @@ import os
 from flask import Flask
 from flask_migrate import Migrate
 
-
 app = Flask(__name__)
 
 db_name = os.environ.get("POSTGRES_DB", "myappdb")
