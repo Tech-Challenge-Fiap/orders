@@ -17,12 +17,9 @@ app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 
 # Configuração de teste
 # Configure para usar uma base de dados de teste, e.g., SQLite in-memory
-is_testing =  os.environ.get("TESTING", "1")
-is_testing = bool(int(is_testing))
-if is_testing:
-    app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///:memory:"
-    app.config["TESTING"] = is_testing
-    app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
+app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///:memory:"
+app.config["TESTING"] = True
+app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 
 from system.infrastructure.adapters.database.models import *
 
