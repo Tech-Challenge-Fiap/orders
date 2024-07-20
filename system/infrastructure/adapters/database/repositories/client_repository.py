@@ -1,7 +1,8 @@
+import time
 from typing import List
 from psycopg2.errors import UniqueViolation
 from sqlalchemy.exc import IntegrityError
-from system.application.exceptions.client_exceptions import ClientAlreadyExistsError
+from system.application.exceptions.client_exceptions import ClientAlreadyExistsError, ClientDeleteError
 from system.application.ports.client_port import ClientPort
 from system.domain.entities.client import ClientEntity
 from system.infrastructure.adapters.database.exceptions.postgres_exceptions import NoObjectFoundError, PostgreSQLError
@@ -44,3 +45,22 @@ class ClientRepository(ClientPort):
             raise PostgreSQLError("PostgreSQL Error")
         clients_list = [ClientEntity.from_orm(client) for client in clients]
         return clients_list
+
+    @classmethod
+    def delete_client(cls, cpf: str) -> None:
+        """Soft deletes a client and changes his order's data to Anonymous"""
+        try:
+            client = db.session.query(ClientModel).get(cpf)
+        except IntegrityError:
+            raise PostgreSQLError("PostgreSQL Error")
+        if not client:
+            raise NoObjectFoundError
+        try:
+            unique_anonymous_cpf = str(int(time.time()))
+            client.cpf = unique_anonymous_cpf
+            client.email = f"{unique_anonymous_cpf}@anonymous.com"
+            client.name = "anonymous_name"
+            db.session.commit()
+        except IntegrityError:
+            raise ClientDeleteError
+        return ClientEntity.model_validate(client)

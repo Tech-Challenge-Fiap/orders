@@ -14,3 +14,12 @@ class ClientDoesNotExistError(Exception):
         *args: object,
     ):
         super().__init__(msg, *args)
+
+
+class ClientDeleteError(Exception):
+    def __init__(  # noqa: WPS612
+        self,
+        msg: str = "This Client could not be deleted",
+        *args: object,
+    ):
+        super().__init__(msg, *args)

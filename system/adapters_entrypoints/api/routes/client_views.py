@@ -44,3 +44,13 @@ def get_clients():
     except InfrastructureError:
         return {"error": "Internal Error"}, 500
     return clients_list
+
+
+@app.route("/delete_client/<cpf>", methods=["DELETE"])
+# @require_auth
+def delete_client(cpf):
+    try:
+        client_usecase.DeleteClientUseCase.execute(cpf=cpf)
+        return '', 204
+    except InfrastructureError:
+        return {"error": "Internal Error"}, 500
