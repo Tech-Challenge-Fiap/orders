@@ -52,3 +52,15 @@ class GetAllClientsUseCase(UseCaseNoRequest, Resource):
         except DataRepositoryExeption as err:
             raise InfrastructureError(str(err))
         return GetAllClientsResponse(response)
+    
+
+
+class DeleteClientUseCase(UseCase, Resource):
+    def execute(cpf: str) -> None:
+        """
+        Delete client
+        """
+        try:
+            ClientRepository.delete_client(cpf)
+        except DataRepositoryExeption as err:
+            raise InfrastructureError(str(err))

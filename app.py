@@ -4,9 +4,9 @@ from flask_migrate import Migrate
 
 app = Flask(__name__)
 
-db_name = os.environ.get("POSTGRES_DB", "myappdb")
-db_user = os.environ.get("POSTGRES_USER", "myappuser")
-db_pass = os.environ.get("POSTGRES_PASSWORD", "myapppassword")
+db_name = os.environ.get("POSTGRES_DB", "orderdb")
+db_user = os.environ.get("POSTGRES_USER", "orderuser")
+db_pass = os.environ.get("POSTGRES_PASSWORD", "orderpass")
 db_host = os.environ.get("POSTGRES_SERVICE_HOST", "localhost")
 app.config["SQLALCHEMY_DATABASE_URI"] = (
     f"postgresql://{db_user}:{db_pass}@{db_host}/{db_name}"
@@ -17,7 +17,7 @@ app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 
 # Configuração de teste
 # Configure para usar uma base de dados de teste, e.g., SQLite in-memory
-app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///:memory:"
+# app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///:memory:"
 app.config["TESTING"] = True
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 

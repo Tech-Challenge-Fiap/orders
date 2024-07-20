@@ -9,7 +9,7 @@ services:
     ports:
       - "5432:5432"  # Mapeie a porta do PostgreSQL do contêiner para a porta do host
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -h localhost -p 5432 -U order -d orderdb"]
+      test: ["CMD-SHELL", "pg_isready -h localhost -p 5432 -U orderuser -d orderdb"]
       interval: 5s
       timeout: 5s
       retries: 5
