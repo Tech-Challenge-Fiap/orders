@@ -18,7 +18,7 @@ app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 # Configuração de teste
 # Configure para usar uma base de dados de teste, e.g., SQLite in-memory
 # app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///:memory:"
-app.config["TESTING"] = False
+app.config["TESTING"] = True
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 
 from system.infrastructure.adapters.database.models import *
