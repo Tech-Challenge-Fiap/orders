@@ -23,7 +23,6 @@ class OrderRepository(OrderPort):
             price=order.price,
             status=order.status,
             waiting_time=order.waiting_time,
-            payment_id=order.payment_id,
             client_id=order.client_id,
             created_at=order.created_at
         )
@@ -105,10 +104,32 @@ class OrderRepository(OrderPort):
             order_products = db.session.query(OrderedProductModel).filter_by(order_id=order_id).all()
         except IntegrityError:
             raise PostgreSQLError("PostgreSQL Error")
-        product_list = []
-        for product in order_products:
-            for _ in range(product.quantity):
-                product_list.append(product.product_id)
+         # Preenche a lista de produtos
+        product_list = [
+            OrderedProductEntity(
+                id=product.id,
+                order_id=product.order_id,
+                type=product.type,
+                name=product.name,
+                price=product.price,
+                description=product.description,
+                quantity=product.quantity,
+                observation=product.observation
+            )
+            for product in order_products
+        ]
+        # Preenche o OrderEntity com as informações necessárias
+        order_entity = OrderEntity(
+            order_id=order.order_id,
+            created_at=order.created_at,
+            price=order.price,
+            status=order.status,
+            waiting_time=order.waiting_time,
+            client_id=order.client_id,
+            products=product_list  # Garante que products seja preenchido
+        )
+
+
         if not order:
             raise NoObjectFoundError
         try:
@@ -116,8 +137,8 @@ class OrderRepository(OrderPort):
             db.session.commit()
         except IntegrityError:
             raise OrderUpdateError
-        order.products_ids = product_list
-        return OrderEntity.model_validate(order)
+        
+        return OrderEntity.model_validate(order_entity)
     
     @classmethod
     def get_all_active_orders(cls) -> List[OrderEntity]:

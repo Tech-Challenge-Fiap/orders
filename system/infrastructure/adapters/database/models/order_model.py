@@ -15,4 +15,3 @@ class OrderModel(db.Model):
     waiting_time = db.Column(db.Integer)
     client_id = db.Column(db.String, db.ForeignKey("clients.cpf"), nullable=True)
     client = relationship("ClientModel", back_populates="order")
-    payment_id = db.Column(db.String)
