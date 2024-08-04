@@ -25,7 +25,8 @@ from system.infrastructure.adapters.database.repositories.order_repository impor
     OrderRepository,
 )
 from system.infrastructure.adapters.external_tools.payment_service import PaymentService
-
+from rabbitmq import publish_message
+import json
 
 class CreateOrderUseCase(UseCase, Resource):
     def execute(request: CreateOrderRequest) -> CreateOrderResponse:
@@ -39,16 +40,22 @@ class CreateOrderUseCase(UseCase, Resource):
             order_price += Decimal(product.price) * Decimal(str(product.quantity))
             order_waiting_time += product.waiting_time * product.quantity
             products_models.append(OrderedProductEntity(**product.model_dump()))
-        payment = PaymentService.create_payment(order_price)
         try:
             order = OrderEntity(
                 price=order_price,
                 products=products_models,
                 waiting_time=order_waiting_time,
                 client_id=request.client_id,
-                payment_id=payment,
             )
             response = OrderRepository.create_order(order)
+
+            message = json.dumps({
+                "order_id": response.order_id,
+                "client_id": request.client_id,
+                "price": str(order_price),
+            })
+            publish_message('fila-pagamentos', message)
+            
         except DataRepositoryExeption as err:
             raise InfrastructureError(str(err))
         return CreateOrderResponse(response.model_dump())

@@ -1,6 +1,8 @@
 import os
 from flask import Flask
 from flask_migrate import Migrate
+import threading
+from system.infrastructure.orquestration.SagaOrders import start_consuming
 
 app = Flask(__name__)
 
@@ -32,6 +34,14 @@ migrate = Migrate(app, db)
 def hello():
     return "<h1>Hello, Mundo!</h1>"
 
+# Start the consumer thread
+def start_consumer_thread():
+    consumer_thread = threading.Thread(target=start_consuming)
+    consumer_thread.daemon = True  # Ensures the thread will exit when the main program exits
+    consumer_thread.start()
+
+# Start the consumer thread
+start_consumer_thread()
 
 if __name__ == "__main__":
     app.run()

@@ -14,7 +14,6 @@ class OrderEntity(BaseModel):
     status: OrderStatusEnum = OrderStatusEnum.TO_BE_PAYED
     waiting_time: Optional[int] = None
     client_id: Optional[str] = None
-    payment_id: Optional[str] = None
 
     class Config:
         from_attributes = True

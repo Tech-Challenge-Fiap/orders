@@ -13,7 +13,6 @@ class OrderResponse(Response):
     status: OrderStatusEnum
     waiting_time: int
     client_id: Optional[str]
-    payment_id: int
 
     class Config:
         from_attributes = True

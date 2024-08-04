@@ -34,3 +34,4 @@ pyjwt==2.3.0
 BaseHash==3.0.10
 pytest==8.2.0
 pylint==3.2.2
+pika==1.3.2

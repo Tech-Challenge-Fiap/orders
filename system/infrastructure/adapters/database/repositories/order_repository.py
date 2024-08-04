@@ -23,7 +23,6 @@ class OrderRepository(OrderPort):
             price=order.price,
             status=order.status,
             waiting_time=order.waiting_time,
-            payment_id=order.payment_id,
             client_id=order.client_id,
             created_at=order.created_at
         )
