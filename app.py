@@ -2,7 +2,7 @@ import os
 from flask import Flask
 from flask_migrate import Migrate
 import threading
-from system.infrastructure.orquestration.SagaOrders import start_consuming
+from system.infrastructure.consumer.SagaOrders import start_consuming
 
 app = Flask(__name__)
 

@@ -33,6 +33,8 @@ Retorno da Requisição: Depois que a lógica de negócios é processada e os da
 
 *Observação: A implementação atual utiliza um sistema de fake checkout em vez de integrar com o serviço real do MercadoPago. O componente 'Fake Checkout' simula o fluxo de pagamento e está contido dentro do container da aplicação web para desenvolvimento e testes. 
 
+Optamos pelo padrão SAGA coreografado por várias razões que se alinham com as necessidades e a arquitetura do nosso sistema. Em primeiro lugar, a complexidade da comunicação entre nossos serviços não é alta. Especificamente, a interação necessária é apenas entre os microsserviços de Orders e Payment, tornando desnecessário o overhead associado a um padrão SAGA orquestrado.
+
 # Guia Rápido para Executar a Aplicação Flask
 Este guia rápido descreve como configurar e executar a aplicação Flask usando Docker Compose e migrações de banco de dados.
 
